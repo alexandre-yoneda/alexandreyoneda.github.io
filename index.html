@@ -9,10 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Cloudflare Turnstile Script -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <!-- Showdown.js for Markdown to HTML conversion -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
     <style>
         :root {
             --primary-gold: #968246; /* R150 G130 B70 */
@@ -32,10 +28,10 @@
             background-size: cover;
             background-position: center;
         }
-        .service-card, .news-card {
+        .service-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .service-card:hover, .news-card:hover {
+        .service-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
@@ -79,13 +75,6 @@
             color: var(--primary-gold);
             border-bottom-color: var(--primary-gold);
         }
-        .speaking .fa-volume-up {
-            animation: fa-beat 1s ease-in-out infinite;
-        }
-        @keyframes fa-beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.25); }
-        }
     </style>
 </head>
 <body class="text-[var(--text-dark)]">
@@ -100,8 +89,8 @@
                 <a href="#inicio" class="nav-link text-gray-600 hover:text-[var(--primary-gold)] active">Início</a>
                 <a href="#servicos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Serviços</a>
                 <a href="#documentos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Documentos</a>
+                <a href="#consultas" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Consultas</a>
                 <a href="#emolumentos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Emolumentos</a>
-                <a href="#noticias" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Notícias</a>
                 <a href="#sobre" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Sobre Nós</a>
                 <a href="#contato" class="bg-[var(--primary-gold)] text-white font-semibold px-4 py-2 rounded-full hover:bg-opacity-90 transition-colors">Contato</a>
             </nav>
@@ -114,8 +103,8 @@
             <a href="#inicio" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Início</a>
             <a href="#servicos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Serviços</a>
             <a href="#documentos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Documentos</a>
+            <a href="#consultas" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Consultas</a>
             <a href="#emolumentos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Emolumentos</a>
-            <a href="#noticias" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Notícias</a>
             <a href="#sobre" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Sobre Nós</a>
             <a href="#contato" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Contato</a>
         </div>
@@ -292,22 +281,8 @@
             </div>
         </section>
 
-        <!-- Noticias Section -->
-        <section id="noticias" class="py-20 bg-[var(--light-bg)]">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Notícias e Comunicados</h2>
-                    <p class="text-[var(--text-gray)] mt-2">Mantenha-se informado sobre as novidades do cartório e do setor.</p>
-                </div>
-                <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- As notícias serão inseridas aqui pelo JavaScript -->
-                     <p id="news-loading" class="text-center text-gray-500 col-span-full">A carregar notícias...</p>
-                </div>
-            </div>
-        </section>
-
         <!-- About Us Section -->
-        <section id="sobre" class="py-20 bg-[var(--card-bg)]">
+        <section id="sobre" class="py-20 bg-[var(--light-bg)]">
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
@@ -333,47 +308,28 @@
         </section>
         
         <!-- Contact Section -->
-        <section id="contato" class="py-20 bg-[var(--light-bg)]">
+        <section id="contato" class="py-20 bg-[var(--card-bg)]">
             <div class="container mx-auto px-6">
                  <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Fale Conosco</h2>
                     <p class="text-[var(--text-gray)] mt-2">Estamos à sua disposição para esclarecer dúvidas e prestar informações.</p>
                 </div>
-                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-8 rounded-lg shadow-lg border">
-                    <form id="contact-form">
-                        <div class="space-y-4">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700">Seu nome *</label>
-                                <input type="text" id="name" name="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700">Seu e-mail *</label>
-                                <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
-                            </div>
-                            <div>
-                                <label for="subject" class="block text-sm font-medium text-gray-700">Assunto *</label>
-                                <input type="text" id="subject" name="subject" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
-                            </div>
-                            <div>
-                                <label for="message" class="block text-sm font-medium text-gray-700">Mensagem *</label>
-                                <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></textarea>
-                            </div>
-                            <!-- Cloudflare Turnstile -->
-                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
-                            <div>
-                                <button type="submit" class="w-full bg-[var(--primary-gold)] text-white font-semibold py-3 px-4 rounded-full hover:bg-opacity-90 transition-colors">Enviar</button>
-                            </div>
-                             <p id="form-status" class="text-center text-sm"></p>
-                        </div>
-                    </form>
-                    <div class="text-left">
-                        <h3 class="text-2xl font-semibold mb-4 text-[var(--text-dark)]">Contatos</h3>
-                        <div class="space-y-4 text-[var(--text-gray)]">
-                            <p><i class="fas fa-clock mr-3 text-[var(--primary-gold)]"></i><strong>Horário:</strong> Seg a Sex, das 8h às 17h</p>
-                            <p><i class="fas fa-envelope mr-3 text-[var(--primary-gold)]"></i><strong>E-mail:</strong> atendimento@rijatai.com.br</p>
-                            <p><i class="fas fa-phone-alt mr-3 text-[var(--primary-gold)]"></i><strong>Telefone:</strong> (64) 3513-0332</p>
-                            <p><i class="fab fa-whatsapp mr-3 text-[var(--primary-gold)]"></i><strong>WhatsApp:</strong> (64) 99958-6494</p>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md border">
+                        <i class="fas fa-map-marker-alt text-3xl text-[var(--primary-gold)] mb-3"></i>
+                        <h3 class="font-semibold text-lg">Endereço</h3>
+                        <p class="text-[var(--text-gray)]">Av. Pres. Tancredo Neves, 100<br>Jatahy Shopping, Jataí-GO</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border">
+                        <i class="fas fa-phone-alt text-3xl text-[var(--primary-gold)] mb-3"></i>
+                        <h3 class="font-semibold text-lg">Telefone</h3>
+                        <p class="text-[var(--text-gray)]">(64) 3513-0332</p>
+                        <p class="text-[var(--text-gray)]">(64) 99958-6494 (WhatsApp)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border">
+                        <i class="fas fa-envelope text-3xl text-[var(--primary-gold)] mb-3"></i>
+                        <h3 class="font-semibold text-lg">E-mail</h3>
+                        <p class="text-[var(--text-gray)]">atendimento@rijatai.com.br</p>
                     </div>
                 </div>
             </div>
@@ -399,23 +355,6 @@
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-    
-    <!-- Suri Chatbot Script -->
-    <script>
-        window.cbAsyncInit = function () {
-            CBM.ChatbotId = "cb62137833";
-            CBM.StartWebChat().then(webChat => {
-            }).catch(reason => {
-            });
-        };
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "https://webchat.chatbotmaker.io/cbm-jssdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'cbm-jssdk'));
-    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -430,17 +369,13 @@
             const serviceTabLinks = document.querySelectorAll('.service-tab-link');
             const feeTableBody = document.getElementById('fee-table-body');
             const feeTabButtons = document.querySelectorAll('#emolumentos .fee-tab-button');
-            const newsContainer = document.getElementById('news-container');
-            const newsLoading = document.getElementById('news-loading');
-            const contactForm = document.getElementById('contact-form');
-            const formStatus = document.getElementById('form-status');
             
             let allFeeRows = [];
 
-            // --- LÓGICA DAS PLANILHAS ---
-            const feeSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9XMSfz1RV4fg6SrgvzODn7WsFvU365kcjpEgwVXWL_x8xzxqAhfHYMVVcCgVALGRXFcoHl1qMpZvo/pub?gid=0&single=true&output=csv';
-            const newsSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTG9d_d-R89_C4x8Re8L7Q1NfbNSa0HshcG5_c-FEXN5R7dKN0rN6raSXtOCZni9X9A5yb9e5liZdxR/pub?gid=0&single=true&output=csv';
+            // --- INÍCIO: LÓGICA PARA CARREGAR DADOS DA PLANILHA ---
+            const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9XMSfz1RV4fg6SrgvzODn7WsFvU365kcjpEgwVXWL_x8xzxqAhfHYMVVcCgVALGRXFcoHl1qMpZvo/pub?output=csv';
 
+            // Função para analisar uma linha CSV, lidando com campos entre aspas que contêm vírgulas
             function parseCsvRow(row) {
                 const result = [];
                 let current = '';
@@ -450,150 +385,173 @@
                     if (char === '"') {
                         inQuotes = !inQuotes;
                     } else if (char === ',' && !inQuotes) {
-                        result.push(current.trim().replace(/^"|"$/g, ''));
+                        result.push(current.trim());
                         current = '';
                     } else {
                         current += char;
                     }
                 }
-                result.push(current.trim().replace(/^"|"$/g, ''));
+                result.push(current.trim());
                 return result;
             }
 
-            async function fetchSheetData(sheetUrl, container, rowParser) {
-                 if (sheetUrl.includes('URL_DA_SUA_PLANILHA')) {
-                    container.innerHTML = `<tr><td colspan="4" class="text-center p-8 text-red-500">URL da planilha não configurada no código.</td></tr>`;
-                    if(newsLoading) newsLoading.textContent = 'URL da planilha de notícias não configurada.';
-                    return null;
+            async function fetchFeeData() {
+                if (sheetUrl === 'URL_DA_SUA_PLANILHA_PUBLICADA_AQUI' || !sheetUrl) {
+                    feeTableBody.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-red-500">URL da planilha não configurada no código.</td></tr>';
+                    return;
                 }
+
                 try {
-                    const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(sheetUrl)}`);
+                    const response = await fetch(sheetUrl);
                     if (!response.ok) throw new Error('Network response was not ok');
                     const data = await response.text();
+                    
                     if (data.trim().toLowerCase().startsWith('<!doctype html')) {
-                         throw new Error('O link parece ser de uma página web, não de um ficheiro CSV.');
+                         throw new Error('O link parece ser de uma página web, não de um ficheiro CSV. Verifique as configurações de publicação.');
                     }
+                    
                     const rows = data.split('\n').slice(1); 
+                    
                     if (rows.length === 0 || (rows.length === 1 && rows[0].trim() === '')) {
-                       return [];
-                    }
-                    return rows.map(rowParser).filter(row => row && Object.values(row)[0]);
-                } catch (error) {
-                    container.innerHTML = `<tr><td colspan="4" class="text-center p-8 text-red-500"><strong>Erro ao carregar dados.</strong><br>${error.message}</td></tr>`;
-                     if(newsLoading) newsLoading.textContent = `Erro ao carregar notícias: ${error.message}`;
-                    return null;
-                }
-            }
-            
-            async function loadFees() {
-                allFeeRows = await fetchSheetData(feeSheetUrl, feeTableBody, row => {
-                    const columns = parseCsvRow(row);
-                    return { specialty: columns[0], service: columns[1], value: columns[2], obs: columns[3] };
-                });
-                if (allFeeRows) filterAndDisplayFees();
-            }
-
-            async function loadNews() {
-                const newsData = await fetchSheetData(newsSheetUrl, newsContainer, row => {
-                    const columns = parseCsvRow(row);
-                    return { date: columns[0], title: columns[1], summary: columns[2], imageUrl: columns[3] };
-                });
-                if (newsData) {
-                    newsLoading.remove();
-                    if (newsData.length === 0) {
-                        newsContainer.innerHTML = '<p class="text-center text-gray-500 col-span-full">Nenhuma notícia disponível no momento.</p>';
+                        feeTableBody.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-gray-500">Nenhum emolumento encontrado na planilha.</td></tr>';
                         return;
                     }
-                    const converter = new showdown.Converter();
-                    newsData.forEach(news => {
-                        const newsCard = document.createElement('div');
-                        newsCard.className = 'news-card bg-white p-6 rounded-lg shadow-lg border';
-                        const summaryHtml = converter.makeHtml(news.summary);
-                        newsCard.innerHTML = `
-                            <img src="${news.imageUrl || 'https://placehold.co/600x400/e2e8f0/334155?text=Notícia'}" alt="${news.title}" class="rounded-md mb-4 w-full h-48 object-cover">
-                            <p class="text-sm text-[var(--text-gray)] mb-2">${news.date}</p>
-                            <h3 class="text-xl font-semibold mb-2">${news.title}</h3>
-                            <div class="text-[var(--text-gray)] text-sm">${summaryHtml}</div>
-                        `;
-                        newsContainer.appendChild(newsCard);
-                    });
+
+                    allFeeRows = rows.map(row => {
+                        const columns = parseCsvRow(row);
+                        return {
+                            specialty: columns[0] || '',
+                            service: columns[1] || '',
+                            value: columns[2] || '',
+                            obs: columns[3] || '-'
+                        };
+                    }).filter(row => row.specialty && row.service);
+
+                    filterAndDisplayFees();
+
+                } catch (error) {
+                    feeTableBody.innerHTML = `<tr><td colspan="4" class="text-center p-8 text-red-500"><strong>Erro ao carregar emolumentos.</strong><br>${error.message}</td></tr>`;
                 }
             }
-            
+
             function filterAndDisplayFees() {
                 const activeTab = document.querySelector('#emolumentos .fee-tab-button.active').dataset.feeTabTarget;
                 const searchTerm = feeSearchInput.value.toLowerCase();
-                const filteredRows = allFeeRows.filter(row => row.specialty === activeTab && (row.service.toLowerCase().includes(searchTerm) || row.obs.toLowerCase().includes(searchTerm)));
+
+                const filteredRows = allFeeRows.filter(row => {
+                    const matchesTab = row.specialty === activeTab;
+                    const matchesSearch = row.service.toLowerCase().includes(searchTerm) || row.obs.toLowerCase().includes(searchTerm);
+                    return matchesTab && matchesSearch;
+                });
+
                 feeTableBody.innerHTML = '';
                 if (filteredRows.length === 0) {
-                    feeTableBody.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-gray-500">Nenhum serviço encontrado.</td></tr>';
+                    feeTableBody.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-gray-500">Nenhum serviço encontrado para esta categoria.</td></tr>';
                     return;
                 }
+
                 let isOdd = false;
                 filteredRows.forEach(row => {
                     isOdd = !isOdd;
                     const tr = document.createElement('tr');
                     tr.className = `border-b ${isOdd ? '' : 'bg-gray-50'}`;
-                    const textToSpeak = `Serviço: ${row.service}. Valor: ${row.value.replace('R$', '').trim()} reais.`;
-                    tr.innerHTML = `<td class="p-4">${row.service}</td><td class="p-4">${row.value}</td><td class="p-4">${row.obs}</td><td class="p-4 text-center"><button class="speak-btn text-[var(--primary-gold)] hover:text-opacity-80" data-text="${textToSpeak}" aria-label="Ouvir detalhes do emolumento"><i class="fas fa-volume-up"></i></button></td>`;
+                    
+                    const textToSpeak = `Serviço: ${row.service}. Valor: ${row.value} reais.`;
+
+                    tr.innerHTML = `
+                        <td class="p-4">${row.service}</td>
+                        <td class="p-4">${row.value}</td>
+                        <td class="p-4">${row.obs}</td>
+                        <td class="p-4 text-center">
+                            <button class="speak-btn text-[var(--primary-gold)] hover:text-opacity-80" data-text="${textToSpeak}" aria-label="Ouvir detalhes do emolumento">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </td>
+                    `;
                     feeTableBody.appendChild(tr);
                 });
             }
             
-            feeTabButtons.forEach(button => button.addEventListener('click', () => {
-                feeTabButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                filterAndDisplayFees();
-            }));
+            feeTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    feeTabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    filterAndDisplayFees();
+                });
+            });
             
-            const synth = window.speechSynthesis;
             feeTableBody.addEventListener('click', function(event) {
                 const button = event.target.closest('.speak-btn');
-                if (!button) return;
-                const text = button.dataset.text;
-                if (synth.speaking) {
-                    synth.cancel();
-                    if (button.classList.contains('speaking')) return;
-                }
-                document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
-                if (text) {
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'pt-BR';
-                    utterance.rate = 1.1;
-                    utterance.onstart = () => button.classList.add('speaking');
-                    utterance.onend = () => button.classList.remove('speaking');
-                    utterance.onerror = () => button.classList.remove('speaking');
-                    synth.speak(utterance);
+                if (button) {
+                    speechSynthesis.cancel();
+                    const text = button.dataset.text;
+                    if (text) {
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.lang = 'pt-BR';
+                        speechSynthesis.speak(utterance);
+                    }
                 }
             });
 
             feeSearchInput.addEventListener('keyup', filterAndDisplayFees);
-            loadFees();
-            loadNews();
 
-            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            fetchFeeData();
+            // --- FIM: LÓGICA DA PLANILHA ---
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const currentId = entry.target.id;
-                        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href').substring(1) === currentId));
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === currentId);
+                        });
                     }
                 });
             }, { rootMargin: "-50% 0px -50% 0px" });
-            sections.forEach(section => observer.observe(section));
-            document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
             accordionButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const content = button.nextElementSibling;
                     button.classList.toggle('open');
-                    content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    } 
                 });
             });
+
             function switchDocTab(tabId) {
-                docTabButtons.forEach(button => button.classList.toggle('active', button.dataset.tabTarget === tabId));
-                docTabPanes.forEach(pane => pane.classList.toggle('hidden', pane.dataset.tabContent !== tabId));
+                docTabButtons.forEach(button => {
+                    button.classList.toggle('active', button.dataset.tabTarget === tabId);
+                });
+                docTabPanes.forEach(pane => {
+                    pane.classList.toggle('active', pane.dataset.tabContent === tabId);
+                    pane.classList.toggle('hidden', pane.dataset.tabContent !== tabId);
+                });
             }
-            docTabButtons.forEach(button => button.addEventListener('click', () => switchDocTab(button.dataset.tabTarget)));
+
+            docTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchDocTab(button.dataset.tabTarget);
+                });
+            });
+
             serviceTabLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -601,25 +559,8 @@
                     switchDocTab(link.dataset.tab);
                 });
             });
-
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                formStatus.textContent = 'A enviar...';
-                formStatus.classList.remove('text-red-500', 'text-green-500');
-                // Simulação de envio
-                setTimeout(() => {
-                    formStatus.textContent = 'Mensagem enviada com sucesso!';
-                    formStatus.classList.add('text-green-500');
-                    contactForm.reset();
-                    if (window.turnstile) {
-                        window.turnstile.reset();
-                    }
-                }, 1000);
-            });
-
         });
     </script>
 
 </body>
 </html>
-

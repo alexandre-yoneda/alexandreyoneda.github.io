@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartório de Registro de Imóveis e Anexos de Jataí-GO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Cloudflare Turnstile Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Showdown.js for Markdown to HTML conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <style>
+        :root {
+            --primary-gold: #968246; /* R150 G130 B70 */
+            --light-bg: #f8f9fa;     /* Cinza muito claro para o fundo */
+            --card-bg: #FFFFFF;      /* Branco para os cartões */
+            --text-dark: #212529;     /* Preto/Cinza escuro para texto principal */
+            --text-gray: #6c757d;     /* Cinza para texto secundário */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+        .hero-bg {
+            background-color: var(--text-dark);
+            background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('https://placehold.co/1920x1080/2d2d2d/FFFFFF?text=RI+Jataí');
+            background-size: cover;
+            background-position: center;
+        }
+        .service-card, .news-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover, .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        section {
+            scroll-margin-top: 4.5rem;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: var(--primary-gold);
+            border-bottom-color: var(--primary-gold);
+        }
+        .speaking .fa-volume-up {
+            animation: fa-beat 1s ease-in-out infinite;
+        }
+        @keyframes fa-beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+        }
+    </style>
+</head>
+<body class="text-[var(--text-dark)]">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-[var(--primary-gold)]" aria-label="Página inicial do RI Jataí">
+                RI Jataí
+            </a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#inicio" class="nav-link text-gray-600 hover:text-[var(--primary-gold)] active">Início</a>
+                <a href="#servicos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Serviços</a>
+                <a href="#documentos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Documentos</a>
+                <a href="#emolumentos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Emolumentos</a>
+                <a href="#noticias" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Notícias</a>
+                <a href="#sobre" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Sobre Nós</a>
+                <a href="#contato" class="bg-[var(--primary-gold)] text-white font-semibold px-4 py-2 rounded-full hover:bg-opacity-90 transition-colors">Contato</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-2xl text-[var(--primary-gold)]" aria-label="Abrir menu de navegação">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-4">
+            <a href="#inicio" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Início</a>
+            <a href="#servicos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Serviços</a>
+            <a href="#documentos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Documentos</a>
+            <a href="#emolumentos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Emolumentos</a>
+            <a href="#noticias" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Notícias</a>
+            <a href="#sobre" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Sobre Nós</a>
+            <a href="#contato" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Contato</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="inicio" class="hero-bg text-white">
+            <div class="container mx-auto px-6 py-24 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Segurança Jurídica e Inovação</h1>
+                <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto text-gray-200">Serviços registrais com a agilidade, tecnologia e a confiança que você precisa.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#servicos" class="bg-[var(--primary-gold)] text-white font-bold px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors text-lg">Nossos Serviços</a>
+                    <a href="#consultas" class="bg-transparent border-2 border-white text-white font-bold px-8 py-3 rounded-full hover:bg-white hover:text-[var(--text-dark)] transition-colors text-lg">Consultar Protocolo</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="servicos" class="py-20 bg-[var(--card-bg)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Nossos Serviços</h2>
+                    <p class="text-[var(--text-gray)] mt-2">Oferecemos uma gama completa de serviços para garantir seus direitos e propriedades.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <a href="#documentos" data-tab="imoveis" class="service-tab-link service-card bg-white p-8 rounded-lg shadow-lg text-center border-t-4 border-[var(--primary-gold)] block">
+                        <div class="text-4xl text-[var(--primary-gold)] mb-4"><i class="fas fa-home"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Registro de Imóveis</h3>
+                        <p class="text-[var(--text-gray)]">Garanta a propriedade e segurança jurídica do seu imóvel com registros, matrículas e averbações.</p>
+                    </a>
+                    <a href="#documentos" data-tab="titulos" class="service-tab-link service-card bg-white p-8 rounded-lg shadow-lg text-center border-t-4 border-[var(--primary-gold)] block">
+                        <div class="text-4xl text-[var(--primary-gold)] mb-4"><i class="fas fa-file-signature"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Títulos e Documentos</h3>
+                        <p class="text-[var(--text-gray)]">Registre contratos, notificações e outros documentos para garantir sua autenticidade e validade legal.</p>
+                    </a>
+                    <a href="#documentos" data-tab="pj" class="service-tab-link service-card bg-white p-8 rounded-lg shadow-lg text-center border-t-4 border-[var(--primary-gold)] block">
+                        <div class="text-4xl text-[var(--primary-gold)] mb-4"><i class="fas fa-users"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Pessoas Jurídicas</h3>
+                        <p class="text-[var(--text-gray)]">Realize o registro de associações, fundações e outras entidades não empresariais.</p>
+                    </a>
+                    <a href="#documentos" data-tab="protesto" class="service-tab-link service-card bg-white p-8 rounded-lg shadow-lg text-center border-t-4 border-[var(--primary-gold)] block">
+                        <div class="text-4xl text-[var(--primary-gold)] mb-4"><i class="fas fa-gavel"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Protesto de Títulos</h3>
+                        <p class="text-[var(--text-gray)]">Formalize a cobrança de dívidas através do protesto de cheques, notas promissórias e outros títulos.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentos Section -->
+        <section id="documentos" class="py-20 bg-[var(--light-bg)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Documentos Necessários</h2>
+                    <p class="text-[var(--text-gray)] mt-2">Consulte a documentação necessária para os principais atos de registro.</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-[var(--card-bg)] p-2 rounded-lg shadow-lg">
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex flex-wrap -mx-4" aria-label="Tabs">
+                            <button data-tab-target="imoveis" class="tab-button active whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Registro de Imóveis</button>
+                            <button data-tab-target="titulos" class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Títulos e Documentos</button>
+                            <button data-tab-target="pj" class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Pessoas Jurídicas</button>
+                            <button data-tab-target="protesto" class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Protesto</button>
+                        </nav>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div id="tab-content" class="p-4">
+                        <div data-tab-content="imoveis" class="tab-pane active space-y-4">
+                            <div class="border rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100"><span>Compra e Venda</span><i class="fas fa-chevron-down accordion-icon"></i></button>
+                                <div class="accordion-content p-5 bg-white"><ul class="list-disc list-inside space-y-2 text-[var(--text-gray)]"><li>Escritura Pública de Compra e Venda.</li><li>Guia de ITBI (Imposto sobre a Transmissão de Bens Imóveis) paga.</li><li>Certidões negativas de débitos do imóvel (IPTU ou ITR).</li><li>Documentos pessoais dos compradores e vendedores (RG e CPF).</li><li>Certidão de casamento (se aplicável).</li></ul></div>
+                            </div>
+                            <div class="border rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100"><span>Doação</span><i class="fas fa-chevron-down accordion-icon"></i></button>
+                                <div class="accordion-content p-5 bg-white"><ul class="list-disc list-inside space-y-2 text-[var(--text-gray)]"><li>Escritura Pública de Doação.</li><li>Guia de ITCMD (Imposto de Transmissão Causa Mortis e Doação) paga.</li><li>Certidões negativas de débitos do imóvel.</li><li>Documentos pessoais do doador e do donatário.</li></ul></div>
+                            </div>
+                             <div class="border rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100"><span>Usufruto</span><i class="fas fa-chevron-down accordion-icon"></i></button>
+                                <div class="accordion-content p-5 bg-white"><ul class="list-disc list-inside space-y-2 text-[var(--text-gray)]"><li>Escritura Pública de Instituição de Usufruto.</li><li>Documentos pessoais do nu-proprietário e do usufrutuário.</li><li>Certidão da matrícula do imóvel.</li></ul></div>
+                            </div>
+                        </div>
+                        <div data-tab-content="titulos" class="tab-pane hidden space-y-4">
+                            <div class="border rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100"><span>Notificação Extrajudicial</span><i class="fas fa-chevron-down accordion-icon"></i></button>
+                                <div class="accordion-content p-5 bg-white"><ul class="list-disc list-inside space-y-2 text-[var(--text-gray)]"><li>Requerimento assinado pelo solicitante.</li><li>Três vias do documento a ser notificado.</li><li>Endereço completo do notificado.</li></ul></div>
+                            </div>
+                        </div>
+                        <div data-tab-content="pj" class="tab-pane hidden space-y-4">
+                            <div class="border rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100"><span>Constituição de Associação</span><i class="fas fa-chevron-down accordion-icon"></i></button>
+                                <div class="accordion-content p-5 bg-white"><ul class="list-disc list-inside space-y-2 text-[var(--text-gray)]"><li>Requerimento assinado pelo representante legal.</li><li>Duas vias do Estatuto Social, visado por advogado.</li><li>Ata de fundação, eleição e posse da diretoria.</li><li>Relação dos associados fundadores.</li></ul></div>
+                            </div>
+                        </div>
+                        <div data-tab-content="protesto" class="tab-pane hidden space-y-4">
+                            <div class="border rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100"><span>Apresentação de Título</span><i class="fas fa-chevron-down accordion-icon"></i></button>
+                                <div class="accordion-content p-5 bg-white"><ul class="list-disc list-inside space-y-2 text-[var(--text-gray)]"><li>Título original (cheque, nota promissória, duplicata, etc.).</li><li>Formulário de apresentação preenchido.</li><li>Documento de identificação do apresentante.</li></ul></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Online Consultations Section -->
+        <section id="consultas" class="py-20 bg-[var(--light-bg)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Consultas e Serviços Online</h2>
+                    <p class="text-[var(--text-gray)] mt-2">Acesse informações e solicite serviços de onde estiver.</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg border">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-4">Acompanhe seu Protocolo</h3>
+                            <p class="text-[var(--text-gray)] mb-4">Verifique o andamento do seu documento de forma rápida e segura. Tenha o número do protocolo em mãos.</p>
+                            <div class="flex">
+                                <input type="text" placeholder="Digite o nº do protocolo" class="w-full px-4 py-3 rounded-l-md border-gray-300 focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]" aria-label="Número do protocolo">
+                                <button class="bg-[var(--primary-gold)] text-white px-6 py-3 rounded-r-md hover:bg-opacity-90 transition-colors font-semibold" aria-label="Buscar protocolo">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <a href="#" class="block w-full text-center bg-[var(--primary-gold)] text-white font-semibold px-6 py-4 rounded-lg hover:bg-opacity-90 transition-colors">
+                                <i class="fas fa-file-alt mr-2"></i> Pedido de Certidão
+                            </a>
+                            <a href="#emolumentos" class="block w-full text-center bg-gray-200 text-gray-800 font-semibold px-6 py-4 rounded-lg hover:bg-gray-300 transition-colors">
+                                <i class="fas fa-calculator mr-2"></i> Tabela de Custas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emolumentos Section -->
+        <section id="emolumentos" class="py-20 bg-[var(--card-bg)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Tabela de Emolumentos</h2>
+                    <p class="text-[var(--text-gray)] mt-2">Consulte os valores dos principais serviços prestados pelo cartório.</p>
+                </div>
+                <div class="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-lg border">
+                    <div class="mb-6">
+                        <input type="text" id="fee-search" placeholder="Pesquisar por um serviço..." class="w-full px-4 py-3 rounded-md border-gray-300 focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
+                    </div>
+                    <!-- Tabs Emolumentos -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex flex-wrap -mx-4" aria-label="Tabs">
+                            <button data-fee-tab-target="Imóveis" class="fee-tab-button active whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Imóveis</button>
+                            <button data-fee-tab-target="Títulos" class="fee-tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Títulos</button>
+                            <button data-fee-tab-target="PJ" class="fee-tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Pessoas Jurídicas</button>
+                            <button data-fee-tab-target="Protesto" class="fee-tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Protesto</button>
+                        </nav>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left" id="fee-table">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="p-4 font-semibold">Serviço</th>
+                                    <th class="p-4 font-semibold">Valor (R$)</th>
+                                    <th class="p-4 font-semibold">Observações</th>
+                                    <th class="p-4 font-semibold text-center">Ouvir</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fee-table-body" class="text-gray-700">
+                                <tr><td colspan="4" class="text-center p-8 text-gray-500">A carregar emolumentos...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Noticias Section -->
+        <section id="noticias" class="py-20 bg-[var(--light-bg)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Notícias e Comunicados</h2>
+                    <p class="text-[var(--text-gray)] mt-2">Mantenha-se informado sobre as novidades do cartório e do setor.</p>
+                </div>
+                <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- As notícias serão inseridas aqui pelo JavaScript -->
+                     <p id="news-loading" class="text-center text-gray-500 col-span-full">A carregar notícias...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="sobre" class="py-20 bg-[var(--card-bg)]">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-bold text-[var(--primary-gold)] mb-4">Compromisso com a Qualidade e a Tradição</h2>
+                        <p class="text-[var(--text-gray)] mb-4 leading-relaxed">Desde 2014 sob a titularidade do Dr. Leandro Akira Matsuoka, o Cartório de Registro de Imóveis e Anexos de Jataí-GO tem se destacado pela busca contínua da excelência. Com uma história que remonta a 1900, honramos nosso passado enquanto investimos em tecnologia e modernização para oferecer um serviço cada vez mais eficiente.</p>
+                        <p class="text-[var(--text-gray)] mb-6 leading-relaxed">Nossa sede no Jatahy Shopping oferece conforto, segurança e acessibilidade, refletindo nosso compromisso em proporcionar a melhor experiência para os nossos clientes.</p>
+                        <div class="flex space-x-8">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-[var(--primary-gold)]">PQTA Diamante</p>
+                                <p class="text-[var(--text-gray)]">Prêmio de Qualidade</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-[var(--primary-gold)]">ISO 9001</p>
+                                <p class="text-[var(--text-gray)]">Certificação ABNT</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden shadow-2xl">
+                        <img src="https://placehold.co/600x400/e2e8f0/334155?text=Foto+do+Cartório" alt="Fachada do Cartório de Jataí" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contato" class="py-20 bg-[var(--light-bg)]">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Fale Conosco</h2>
+                    <p class="text-[var(--text-gray)] mt-2">Estamos à sua disposição para esclarecer dúvidas e prestar informações.</p>
+                </div>
+                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-8 rounded-lg shadow-lg border">
+                    <form id="contact-form">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Seu nome *</label>
+                                <input type="text" id="name" name="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Seu e-mail *</label>
+                                <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700">Assunto *</label>
+                                <input type="text" id="subject" name="subject" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700">Mensagem *</label>
+                                <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></textarea>
+                            </div>
+                            <!-- Cloudflare Turnstile -->
+                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+                            <div>
+                                <button type="submit" class="w-full bg-[var(--primary-gold)] text-white font-semibold py-3 px-4 rounded-full hover:bg-opacity-90 transition-colors">Enviar</button>
+                            </div>
+                             <p id="form-status" class="text-center text-sm"></p>
+                        </div>
+                    </form>
+                    <div class="text-left">
+                        <h3 class="text-2xl font-semibold mb-4 text-[var(--text-dark)]">Contatos</h3>
+                        <div class="space-y-4 text-[var(--text-gray)]">
+                            <p><i class="fas fa-clock mr-3 text-[var(--primary-gold)]"></i><strong>Horário:</strong> Seg a Sex, das 8h às 17h</p>
+                            <p><i class="fas fa-envelope mr-3 text-[var(--primary-gold)]"></i><strong>E-mail:</strong> atendimento@rijatai.com.br</p>
+                            <p><i class="fas fa-phone-alt mr-3 text-[var(--primary-gold)]"></i><strong>Telefone:</strong> (64) 3513-0332</p>
+                            <p><i class="fab fa-whatsapp mr-3 text-[var(--primary-gold)]"></i><strong>WhatsApp:</strong> (64) 99958-6494</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--primary-gold)] text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 Cartório de Registro de Imóveis e Anexos de Jataí-GO. Todos os direitos reservados.</p>
+            <p class="text-sm text-gray-200 mt-2">Desenvolvido com tecnologia de ponta para melhor servi-lo.</p>
+        </div>
+    </footer>
+
+    <!-- VLibras Widget -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    
+    <!-- Suri Chatbot Script -->
+    <script>
+        window.cbAsyncInit = function () {
+            CBM.ChatbotId = "cb62137833";
+            CBM.StartWebChat().then(webChat => {
+            }).catch(reason => {
+            });
+        };
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://webchat.chatbotmaker.io/cbm-jssdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'cbm-jssdk'));
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            const feeSearchInput = document.getElementById('fee-search');
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            const docTabButtons = document.querySelectorAll('#documentos .tab-button');
+            const docTabPanes = document.querySelectorAll('#documentos .tab-pane');
+            const serviceTabLinks = document.querySelectorAll('.service-tab-link');
+            const feeTableBody = document.getElementById('fee-table-body');
+            const feeTabButtons = document.querySelectorAll('#emolumentos .fee-tab-button');
+            const newsContainer = document.getElementById('news-container');
+            const newsLoading = document.getElementById('news-loading');
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+            
+            let allFeeRows = [];
+
+            // --- LÓGICA DAS PLANILHAS ---
+            const feeSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9XMSfz1RV4fg6SrgvzODn7WsFvU365kcjpEgwVXWL_x8xzxqAhfHYMVVcCgVALGRXFcoHl1qMpZvo/pub?gid=0&single=true&output=csv';
+            const newsSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTG9d_d-R89_C4x8Re8L7Q1NfbNSa0HshcG5_c-FEXN5R7dKN0rN6raSXtOCZni9X9A5yb9e5liZdxR/pub?gid=0&single=true&output=csv';
+
+            function parseCsvRow(row) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                for (let i = 0; i < row.length; i++) {
+                    const char = row[i];
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        result.push(current.trim().replace(/^"|"$/g, ''));
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                result.push(current.trim().replace(/^"|"$/g, ''));
+                return result;
+            }
+
+            async function fetchSheetData(sheetUrl, container, rowParser) {
+                 if (sheetUrl.includes('URL_DA_SUA_PLANILHA')) {
+                    container.innerHTML = `<tr><td colspan="4" class="text-center p-8 text-red-500">URL da planilha não configurada no código.</td></tr>`;
+                    if(newsLoading) newsLoading.textContent = 'URL da planilha de notícias não configurada.';
+                    return null;
+                }
+                try {
+                    const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(sheetUrl)}`);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const data = await response.text();
+                    if (data.trim().toLowerCase().startsWith('<!doctype html')) {
+                         throw new Error('O link parece ser de uma página web, não de um ficheiro CSV.');
+                    }
+                    const rows = data.split('\n').slice(1); 
+                    if (rows.length === 0 || (rows.length === 1 && rows[0].trim() === '')) {
+                       return [];
+                    }
+                    return rows.map(rowParser).filter(row => row && Object.values(row)[0]);
+                } catch (error) {
+                    container.innerHTML = `<tr><td colspan="4" class="text-center p-8 text-red-500"><strong>Erro ao carregar dados.</strong><br>${error.message}</td></tr>`;
+                     if(newsLoading) newsLoading.textContent = `Erro ao carregar notícias: ${error.message}`;
+                    return null;
+                }
+            }
+            
+            async function loadFees() {
+                allFeeRows = await fetchSheetData(feeSheetUrl, feeTableBody, row => {
+                    const columns = parseCsvRow(row);
+                    return { specialty: columns[0], service: columns[1], value: columns[2], obs: columns[3] };
+                });
+                if (allFeeRows) filterAndDisplayFees();
+            }
+
+            async function loadNews() {
+                const newsData = await fetchSheetData(newsSheetUrl, newsContainer, row => {
+                    const columns = parseCsvRow(row);
+                    return { date: columns[0], title: columns[1], summary: columns[2], imageUrl: columns[3] };
+                });
+                if (newsData) {
+                    newsLoading.remove();
+                    if (newsData.length === 0) {
+                        newsContainer.innerHTML = '<p class="text-center text-gray-500 col-span-full">Nenhuma notícia disponível no momento.</p>';
+                        return;
+                    }
+                    const converter = new showdown.Converter();
+                    newsData.forEach(news => {
+                        const newsCard = document.createElement('div');
+                        newsCard.className = 'news-card bg-white p-6 rounded-lg shadow-lg border';
+                        const summaryHtml = converter.makeHtml(news.summary);
+                        newsCard.innerHTML = `
+                            <img src="${news.imageUrl || 'https://placehold.co/600x400/e2e8f0/334155?text=Notícia'}" alt="${news.title}" class="rounded-md mb-4 w-full h-48 object-cover">
+                            <p class="text-sm text-[var(--text-gray)] mb-2">${news.date}</p>
+                            <h3 class="text-xl font-semibold mb-2">${news.title}</h3>
+                            <div class="text-[var(--text-gray)] text-sm">${summaryHtml}</div>
+                        `;
+                        newsContainer.appendChild(newsCard);
+                    });
+                }
+            }
+            
+            function filterAndDisplayFees() {
+                const activeTab = document.querySelector('#emolumentos .fee-tab-button.active').dataset.feeTabTarget;
+                const searchTerm = feeSearchInput.value.toLowerCase();
+                const filteredRows = allFeeRows.filter(row => row.specialty === activeTab && (row.service.toLowerCase().includes(searchTerm) || row.obs.toLowerCase().includes(searchTerm)));
+                feeTableBody.innerHTML = '';
+                if (filteredRows.length === 0) {
+                    feeTableBody.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-gray-500">Nenhum serviço encontrado.</td></tr>';
+                    return;
+                }
+                let isOdd = false;
+                filteredRows.forEach(row => {
+                    isOdd = !isOdd;
+                    const tr = document.createElement('tr');
+                    tr.className = `border-b ${isOdd ? '' : 'bg-gray-50'}`;
+                    const textToSpeak = `Serviço: ${row.service}. Valor: ${row.value.replace('R$', '').trim()} reais.`;
+                    tr.innerHTML = `<td class="p-4">${row.service}</td><td class="p-4">${row.value}</td><td class="p-4">${row.obs}</td><td class="p-4 text-center"><button class="speak-btn text-[var(--primary-gold)] hover:text-opacity-80" data-text="${textToSpeak}" aria-label="Ouvir detalhes do emolumento"><i class="fas fa-volume-up"></i></button></td>`;
+                    feeTableBody.appendChild(tr);
+                });
+            }
+            
+            feeTabButtons.forEach(button => button.addEventListener('click', () => {
+                feeTabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                filterAndDisplayFees();
+            }));
+            
+            const synth = window.speechSynthesis;
+            feeTableBody.addEventListener('click', function(event) {
+                const button = event.target.closest('.speak-btn');
+                if (!button) return;
+                const text = button.dataset.text;
+                if (synth.speaking) {
+                    synth.cancel();
+                    if (button.classList.contains('speaking')) return;
+                }
+                document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
+                if (text) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'pt-BR';
+                    utterance.rate = 1.1;
+                    utterance.onstart = () => button.classList.add('speaking');
+                    utterance.onend = () => button.classList.remove('speaking');
+                    utterance.onerror = () => button.classList.remove('speaking');
+                    synth.speak(utterance);
+                }
+            });
+
+            feeSearchInput.addEventListener('keyup', filterAndDisplayFees);
+            loadFees();
+            loadNews();
+
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const currentId = entry.target.id;
+                        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href').substring(1) === currentId));
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+            sections.forEach(section => observer.observe(section));
+            document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    button.classList.toggle('open');
+                    content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+                });
+            });
+            function switchDocTab(tabId) {
+                docTabButtons.forEach(button => button.classList.toggle('active', button.dataset.tabTarget === tabId));
+                docTabPanes.forEach(pane => pane.classList.toggle('hidden', pane.dataset.tabContent !== tabId));
+            }
+            docTabButtons.forEach(button => button.addEventListener('click', () => switchDocTab(button.dataset.tabTarget)));
+            serviceTabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('documentos').scrollIntoView();
+                    switchDocTab(link.dataset.tab);
+                });
+            });
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                formStatus.textContent = 'A enviar...';
+                formStatus.classList.remove('text-red-500', 'text-green-500');
+                // Simulação de envio
+                setTimeout(() => {
+                    formStatus.textContent = 'Mensagem enviada com sucesso!';
+                    formStatus.classList.add('text-green-500');
+                    contactForm.reset();
+                    if (window.turnstile) {
+                        window.turnstile.reset();
+                    }
+                }, 1000);
+            });
+
+        });
+    </script>
+
+</body>
+</html>

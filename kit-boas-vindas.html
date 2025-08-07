@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit de Boas-Vindas | CRI Jataí-GO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A single-page application (SPA) with vertical scrolling and a fixed side navigation menu. This structure was chosen for its simplicity and intuitive user flow, allowing new employees to either progress linearly through the onboarding content or jump directly to sections of interest. The thematic sections (Boas-Vindas, Nossa Cultura, Primeiros Passos, Ferramentas, Compliance, Recursos) logically group the dense information from the manual into digestible chunks, prioritizing the most critical "first-day" information. Interactions include clickable cards for key conduct rules and a visual flowchart for the 5S program to enhance engagement and comprehension over static text. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Mission, Vision, Values -> Goal: Inform -> Presentation: Styled text cards -> Justification: Creates visual separation and emphasis. -> Method: HTML/Tailwind.
+        - Report Info: Prohibited Conducts (Item 5.4) -> Goal: Inform/Warn -> Presentation: Interactive clickable cards -> Interaction: On click, reveals details -> Justification: Breaks down a dense list into engaging, bite-sized pieces of information, improving retention. -> Method: HTML/Tailwind/JS.
+        - Report Info: 5S Program (Item 6.3) -> Goal: Organize/Explain Process -> Presentation: Horizontal Flowchart -> Justification: Visually represents the process flow, making it much easier to understand than a list. -> Method: HTML/Tailwind.
+        - Report Info: Key Duties/Postures (Various sections) -> Goal: Inform -> Presentation: Icon-based list -> Justification: Icons provide quick visual cues for different topics like dress code, confidentiality, etc. -> Method: HTML/Tailwind with Unicode characters.
+        - Report Info: Organizational Structure/History -> Goal: Inform -> Presentation: Structured text -> Justification: Clear and direct presentation for foundational knowledge. -> Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9F7F5;
+            color: #4B4B4B;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link.active {
+            color: #A47D5E;
+            border-left-color: #A47D5E;
+            background-color: #F3ECE6;
+        }
+        .nav-link:hover {
+            color: #A47D5E;
+            background-color: #F3ECE6;
+        }
+        .card-flip {
+            perspective: 1000px;
+        }
+        .card-flip-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-flip.flipped .card-flip-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .flowchart-step {
+            position: relative;
+            flex: 1;
+            text-align: center;
+        }
+        .flowchart-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 25%;
+            right: -25%;
+            width: 50%;
+            border-top: 2px dashed #D1C3B8;
+            z-index: 0;
+        }
+        @media (max-width: 768px) {
+            .flowchart-step:not(:last-child)::after {
+                top: auto;
+                bottom: -25%;
+                right: 50%;
+                width: 0;
+                height: 50%;
+                border-top: none;
+                border-left: 2px dashed #D1C3B8;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-[#F3ECE6] p-4 h-screen hidden lg:flex flex-col shadow-lg flex-shrink-0">
+            <div class="text-center mb-10">
+                <h1 class="text-xl font-bold text-[#A47D5E]">CRI Jataí-GO</h1>
+                <p class="text-sm text-[#6e5f52]">Kit de Boas-Vindas</p>
+            </div>
+            <nav id="desktop-nav" class="flex flex-col space-y-2">
+                <a href="#boas-vindas" class="nav-link active p-3 rounded-r-lg">Boas-Vindas</a>
+                <a href="#cultura" class="nav-link p-3 rounded-r-lg">Nossa Cultura</a>
+                <a href="#primeiros-passos" class="nav-link p-3 rounded-r-lg">Primeiros Passos</a>
+                <a href="#ferramentas" class="nav-link p-3 rounded-r-lg">Ferramentas e Sistemas</a>
+                <a href="#compliance" class="nav-link p-3 rounded-r-lg">Compliance e Ética</a>
+                <a href="#recursos" class="nav-link p-3 rounded-r-lg">Recursos e Apoio</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 p-4 sm:p-8 md:p-12 overflow-y-auto scroll-smooth">
+            
+            <!-- Mobile Header -->
+            <header class="lg:hidden bg-white/80 backdrop-blur-sm sticky top-0 z-10 p-4 mb-8 rounded-xl shadow-md">
+                 <div class="flex justify-between items-center">
+                    <h1 class="text-lg font-bold text-[#A47D5E]">CRI Jataí-GO</h1>
+                    <select id="mobile-nav" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#A47D5E] focus:border-[#A47D5E] p-2.5">
+                        <option value="#boas-vindas">Boas-Vindas</option>
+                        <option value="#cultura">Nossa Cultura</option>
+                        <option value="#primeiros-passos">Primeiros Passos</option>
+                        <option value="#ferramentas">Ferramentas e Sistemas</option>
+                        <option value="#compliance">Compliance e Ética</option>
+                        <option value="#recursos">Recursos e Apoio</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Section: Boas-Vindas -->
+            <section id="boas-vindas" class="mb-16 scroll-mt-24">
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-[#A47D5E] mb-4">Seja muito bem-vindo(a)!</h2>
+                    <p class="text-lg mb-6">Estamos muito felizes em ter você em nossa equipe. Este kit digital foi preparado para ser seu guia inicial, apresentando a essência do nosso cartório, nossa cultura e as informações práticas para seus primeiros dias. Explore o conteúdo para se familiarizar com nosso ambiente de trabalho e nossos valores.</p>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-[#F9F7F5] p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-2 text-[#6e5f52]">Nossa Missão</h3>
+                            <p class="text-sm">Prestar serviços jurídicos com qualidade para promover a Segurança Jurídica dos registros públicos, com presteza, profissionalismo e consciência socioambiental.</p>
+                        </div>
+                        <div class="bg-[#F9F7F5] p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-2 text-[#6e5f52]">Nossa Visão</h3>
+                            <p class="text-sm">Ser referência em qualidade e presteza no serviço registral extrajudicial na comarca de Jataí-GO.</p>
+                        </div>
+                        <div class="bg-[#F9F7F5] p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-2 text-[#6e5f52]">Nossos Valores</h3>
+                            <p class="text-sm">Legalidade, Comprometimento, União e Responsabilidade Socioambiental.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Nossa Cultura -->
+            <section id="cultura" class="mb-16 scroll-mt-24">
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-[#A47D5E] mb-2">Nossa Cultura de Excelência</h2>
+                    <p class="mb-8">Nossa cultura é o que nos une e nos guia. Ela é baseada no respeito, na ética e na busca contínua pela qualidade. Nesta seção, você conhecerá as condutas essenciais que moldam nosso ambiente de trabalho e garantem a confiança que nossos clientes depositam em nós. Entender e praticar esses princípios é fundamental para seu sucesso aqui.</p>
+
+                    <h3 class="text-2xl font-bold text-[#6e5f52] mb-4">Condutas Essenciais: O Que é Vetado</h3>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="card-flip h-48 rounded-xl cursor-pointer">
+                            <div class="card-flip-inner relative w-full h-full">
+                                <div class="card-front absolute w-full h-full bg-[#F3ECE6] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow">
+                                    <p class="text-5xl mb-2">💼</p>
+                                    <h4 class="font-semibold">Uso de Recursos</h4>
+                                    <p class="text-xs mt-2 text-gray-500">Clique para ver detalhes</p>
+                                </div>
+                                <div class="card-back absolute w-full h-full bg-[#A47D5E] text-white rounded-xl p-4 flex items-center justify-center text-center shadow-lg">
+                                    <p class="text-sm">É proibido utilizar recursos materiais ou pessoais do cartório (telefones, internet, impressoras) para atividades particulares.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-flip h-48 rounded-xl cursor-pointer">
+                            <div class="card-flip-inner relative w-full h-full">
+                                <div class="card-front absolute w-full h-full bg-[#F3ECE6] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow">
+                                    <p class="text-5xl mb-2">🎁</p>
+                                    <h4 class="font-semibold">Vantagens Indevidas</h4>
+                                    <p class="text-xs mt-2 text-gray-500">Clique para ver detalhes</p>
+                                </div>
+                                <div class="card-back absolute w-full h-full bg-[#A47D5E] text-white rounded-xl p-4 flex items-center justify-center text-center shadow-lg">
+                                    <p class="text-sm">É vetado valer-se do cargo para lograr proveito pessoal ou receber propina, comissão ou qualquer vantagem em razão de suas atribuições.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-flip h-48 rounded-xl cursor-pointer">
+                            <div class="card-flip-inner relative w-full h-full">
+                                <div class="card-front absolute w-full h-full bg-[#F3ECE6] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow">
+                                    <p class="text-5xl mb-2">🤫</p>
+                                    <h4 class="font-semibold">Divulgação de Informações</h4>
+                                    <p class="text-xs mt-2 text-gray-500">Clique para ver detalhes</p>
+                                </div>
+                                <div class="card-back absolute w-full h-full bg-[#A47D5E] text-white rounded-xl p-4 flex items-center justify-center text-center shadow-lg">
+                                    <p class="text-sm">É proibido divulgar informalmente dados constantes nos arquivos da Serventia. O sigilo profissional é um pilar da nossa confiança.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-flip h-48 rounded-xl cursor-pointer">
+                            <div class="card-flip-inner relative w-full h-full">
+                                <div class="card-front absolute w-full h-full bg-[#F3ECE6] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow">
+                                    <p class="text-5xl mb-2">🗣️</p>
+                                    <h4 class="font-semibold">Postura Profissional</h4>
+                                    <p class="text-xs mt-2 text-gray-500">Clique para ver detalhes</p>
+                                </div>
+                                <div class="card-back absolute w-full h-full bg-[#A47D5E] text-white rounded-xl p-4 flex items-center justify-center text-center shadow-lg">
+                                     <p class="text-sm">Mantenha uma postura respeitosa, evite conversas paralelas e "fofocas". O tratamento com colegas e clientes deve ser sempre cortês e profissional.</p>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="card-flip h-48 rounded-xl cursor-pointer">
+                            <div class="card-flip-inner relative w-full h-full">
+                                <div class="card-front absolute w-full h-full bg-[#F3ECE6] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow">
+                                    <p class="text-5xl mb-2">🛒</p>
+                                    <h4 class="font-semibold">Comercialização</h4>
+                                    <p class="text-xs mt-2 text-gray-500">Clique para ver detalhes</p>
+                                </div>
+                                <div class="card-back absolute w-full h-full bg-[#A47D5E] text-white rounded-xl p-4 flex items-center justify-center text-center shadow-lg">
+                                     <p class="text-sm">Qualquer tipo de divulgação, comercialização ou venda de produtos de qualquer espécie dentro do cartório é proibido.</p>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="card-flip h-48 rounded-xl cursor-pointer">
+                            <div class="card-flip-inner relative w-full h-full">
+                                <div class="card-front absolute w-full h-full bg-[#F3ECE6] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow">
+                                    <p class="text-5xl mb-2">🤝</p>
+                                    <h4 class="font-semibold">Indicação de Serviços</h4>
+                                    <p class="text-xs mt-2 text-gray-500">Clique para ver detalhes</p>
+                                </div>
+                                <div class="card-back absolute w-full h-full bg-[#A47D5E] text-white rounded-xl p-4 flex items-center justify-center text-center shadow-lg">
+                                     <p class="text-sm">É proibido indicar para usuários eventuais prestadores de serviços ou manter vínculos com eles para evitar conflitos de interesse.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Primeiros Passos -->
+            <section id="primeiros-passos" class="mb-16 scroll-mt-24">
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-[#A47D5E] mb-2">Seus Primeiros Passos</h2>
+                    <p class="mb-8">Para que sua integração seja tranquila, reunimos aqui informações práticas sobre o dia a dia no cartório. Conhecer essas rotinas ajudará você a se organizar e a se sentir parte da equipe desde o início.</p>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-[#6e5f52] mb-4">Rotinas e Deveres</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-2xl mr-4 mt-1 text-[#A47D5E]">👕</span>
+                                    <div>
+                                        <h4 class="font-semibold">Uniforme e Crachá</h4>
+                                        <p class="text-sm">O uso do uniforme (camiseta fornecida) e do crachá de identificação é obrigatório durante todo o expediente. A calça deve ser na cor preta ou jeans, sem detalhes chamativos.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-2xl mr-4 mt-1 text-[#A47D5E]">⏰</span>
+                                    <div>
+                                        <h4 class="font-semibold">Horário de Trabalho e Ponto</h4>
+                                        <p class="text-sm">A carga horária é de 44h semanais (8h48min/dia). O registro do ponto eletrônico é obrigatório na chegada e na saída. As pausas para lanche são de 15 minutos de manhã e 15 à tarde.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-2xl mr-4 mt-1 text-[#A47D5E]">🎁</span>
+                                    <div>
+                                        <h4 class="font-semibold">Benefícios</h4>
+                                        <p class="text-sm">Oferecemos benefícios como Day-off no aniversário, vale-alimentação/refeição, vale-cultura, convênios e incentivo para academia. Consulte o RH para mais detalhes.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-[#6e5f52] mb-4">Organização: O Programa 5S</h3>
+                            <p class="text-sm mb-4">Adotamos a metodologia 5S para manter nosso ambiente de trabalho eficiente, seguro e agradável. Cada "S" representa um passo para a organização.</p>
+                            <div class="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-2">
+                                <div class="flowchart-step">
+                                    <div class="bg-[#F3ECE6] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow z-10 relative">
+                                        <p class="text-2xl">1</p>
+                                    </div>
+                                    <p class="font-semibold text-sm">SEIRI</p>
+                                    <p class="text-xs">Utilização</p>
+                                </div>
+                                <div class="flowchart-step">
+                                    <div class="bg-[#F3ECE6] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow z-10 relative">
+                                        <p class="text-2xl">2</p>
+                                    </div>
+                                    <p class="font-semibold text-sm">SEITON</p>
+                                    <p class="text-xs">Organização</p>
+                                </div>
+                                <div class="flowchart-step">
+                                    <div class="bg-[#F3ECE6] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow z-10 relative">
+                                        <p class="text-2xl">3</p>
+                                    </div>
+                                    <p class="font-semibold text-sm">SEISO</p>
+                                    <p class="text-xs">Limpeza</p>
+                                </div>
+                                <div class="flowchart-step">
+                                    <div class="bg-[#F3ECE6] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow z-10 relative">
+                                        <p class="text-2xl">4</p>
+                                    </div>
+                                    <p class="font-semibold text-sm">SEIKETSU</p>
+                                    <p class="text-xs">Padronização</p>
+                                </div>
+                                <div class="flowchart-step">
+                                    <div class="bg-[#F3ECE6] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow z-10 relative">
+                                        <p class="text-2xl">5</p>
+                                    </div>
+                                    <p class="font-semibold text-sm">SHITSUKE</p>
+                                    <p class="text-xs">Manutenção</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Ferramentas -->
+            <section id="ferramentas" class="mb-16 scroll-mt-24">
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-[#A47D5E] mb-2">Ferramentas e Segurança de Dados</h2>
+                    <p class="mb-8">Trabalhamos em um ambiente totalmente informatizado para garantir agilidade e segurança. O uso correto das nossas ferramentas e o respeito às políticas de segurança da informação são essenciais para proteger os dados dos nossos clientes e a integridade dos nossos serviços.</p>
+                    <div class="bg-[#F9F7F5] p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-[#6e5f52] mb-4">Política de Segurança da Informação</h3>
+                        <ul class="space-y-3 list-disc list-inside text-sm">
+                            <li><strong>Acesso e Senhas:</strong> Cada colaborador possui um usuário individual protegido por senha. Suas credenciais são pessoais e intransferíveis.</li>
+                            <li><strong>Uso da Internet:</strong> O acesso à internet é monitorado e destinado exclusivamente para atividades de trabalho. O acesso a redes sociais, sites de compras, streaming e downloads não relacionados ao serviço é proibido.</li>
+                            <li><strong>Instalação de Software:</strong> A instalação de qualquer software nos computadores do cartório é proibida sem a autorização prévia do setor de TI.</li>
+                            <li><strong>E-mail e Comunicação:</strong> Utilize o e-mail corporativo de forma profissional. Desconfie de mensagens suspeitas e não abra anexos ou links de remetentes desconhecidos.</li>
+                            <li><strong>Segurança de Dados:</strong> Todas as nossas atividades são informatizadas e contam com rotinas de backup e redundância para garantir a continuidade do negócio e a segurança dos dados.</li>
+                            <li class="font-semibold mt-4"><strong>Atenção:</strong> Seus acessos (usuário e senha) serão fornecidos de forma segura pelo seu gestor no primeiro dia. Por segurança, nunca compartilhamos senhas por canais digitais.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Compliance -->
+            <section id="compliance" class="mb-16 scroll-mt-24">
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-[#A47D5E] mb-2">Compliance, Ética e LGPD</h2>
+                    <p class="mb-8">A integridade é o alicerce do nosso trabalho. Atuar em conformidade com as leis, normas e nossos valores éticos não é uma opção, mas um dever. Esta seção aborda os pilares do nosso programa de Compliance e a importância da Lei Geral de Proteção de Dados (LGPD) em nossas operações.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-[#F9F7F5] p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-2 text-[#6e5f52]">Programa de Compliance e Antissuborno</h3>
+                            <p class="text-sm mb-3">Nosso programa visa prevenir, detectar e corrigir qualquer desvio de conduta, fraude ou ato de corrupção. Agir com integridade e transparência é responsabilidade de todos.</p>
+                            <p class="text-sm font-semibold">Práticas não toleráveis:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                                <li>Aceitar ou oferecer suborno, presentes ou vantagens.</li>
+                                <li>Alterar a prioridade de prenotações indevidamente.</li>
+                                <li>Cobrar valores divergentes da tabela de emolumentos.</li>
+                            </ul>
+                             <p class="text-sm mt-3">Qualquer suspeita de irregularidade deve ser reportada através do Canal de Denúncias em nosso site, com garantia de sigilo e confidencialidade.</p>
+                        </div>
+                        <div class="bg-[#F9F7F5] p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-2 text-[#6e5f52]">LGPD - Proteção de Dados</h3>
+                            <p class="text-sm">A Lei Geral de Proteção de Dados (Lei 13.709/2018) é aplicada rigorosamente em todos os nossos processos. O objetivo é proteger a privacidade e os dados pessoais de nossos clientes e colaboradores.</p>
+                            <p class="text-sm mt-3"><strong>Seu compromisso é fundamental:</strong></p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                                <li>Trate todos os dados pessoais com o máximo de cuidado e confidencialidade.</li>
+                                <li>Não compartilhe informações de clientes ou colegas fora do ambiente de trabalho.</li>
+                                <li>Siga os procedimentos internos para garantir a segurança e o sigilo profissional.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Recursos -->
+            <section id="recursos" class="scroll-mt-24">
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-[#A47D5E] mb-2">Recursos e Apoio</h2>
+                    <p class="mb-8">Sua jornada no cartório está apenas começando. Lembre-se que você faz parte de uma equipe pronta para ajudar. Aqui estão alguns recursos para consulta e pessoas que podem te apoiar neste início.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-[#6e5f52] mb-4">Contatos Importantes</h3>
+                            <p class="text-sm">Seu **gestor direto** é sua primeira referência para dúvidas sobre tarefas. Para questões administrativas, procure o **RH**. Além disso, você terá um(a) **colega "anjo" ou "padrinho"** designado para te ajudar com dicas do dia a dia.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-[#6e5f52] mb-4">Glossário Rápido</h3>
+                             <ul class="list-disc list-inside text-sm space-y-1">
+                                <li><strong>MACEQ:</strong> Manual de Condutas, Ética e Qualidade.</li>
+                                <li><strong>LGPD:</strong> Lei Geral de Proteção de Dados.</li>
+                                <li><strong>COAF:</strong> Conselho de Controle de Atividades Financeiras.</li>
+                                <li><strong>POP:</strong> Procedimento Operacional Padrão.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-8 border-t pt-8 text-center">
+                        <h3 class="text-xl font-bold text-[#6e5f52] mb-4">Manual Completo</h3>
+                        <p class="mb-4">Este site é um resumo. Para informações detalhadas, consulte o documento completo.</p>
+                        <a href="MANUAL DE CONDUTAS, ÉTICA E QUALIDADE - REVISÃO 12-2024.pdf" target="_blank" class="inline-block bg-[#A47D5E] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#8e6a4f] transition-colors">
+                            Acessar Manual Completo (PDF)
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            const desktopNavLinks = document.querySelectorAll('#desktop-nav .nav-link');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mainContent = document.getElementById('main-content');
+
+            // Card flip interaction
+            const cards = document.querySelectorAll('.card-flip');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+            });
+
+            // Scrollspy for desktop and mobile
+            function updateActiveLink() {
+                let index = sections.length;
+                while(--index && mainContent.scrollTop + 100 < sections[index].offsetTop) {}
+                
+                desktopNavLinks.forEach((link) => link.classList.remove('active'));
+                if (desktopNavLinks[index]) {
+                    desktopNavLinks[index].classList.add('active');
+                    mobileNav.value = desktopNavLinks[index].getAttribute('href');
+                }
+            }
+            
+            mainContent.addEventListener('scroll', updateActiveLink);
+            updateActiveLink();
+
+            // Click handler for smooth scrolling on Desktop
+            desktopNavLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        mainContent.scrollTo({
+                            top: targetElement.offsetTop - 30,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Change handler for smooth scrolling on Mobile
+            mobileNav.addEventListener('change', (event) => {
+                const targetId = event.target.value;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                     mainContent.scrollTo({
+                        top: targetElement.offsetTop - 30,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

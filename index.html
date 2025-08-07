@@ -86,6 +86,23 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.25); }
         }
+        .card-flip {
+            perspective: 1000px;
+        }
+        .card-flip-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-flip.flipped .card-flip-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
     </style>
 </head>
 <body class="text-[var(--text-dark)]">
@@ -102,7 +119,9 @@
                 <a href="#documentos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Documentos</a>
                 <a href="#emolumentos" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Emolumentos</a>
                 <a href="#noticias" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Notícias</a>
+                <a href="#links" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Links Úteis</a>
                 <a href="#sobre" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Sobre Nós</a>
+                <a href="intranet-login.html" class="nav-link text-gray-600 hover:text-[var(--primary-gold)]">Intranet</a>
                 <a href="#contato" class="bg-[var(--primary-gold)] text-white font-semibold px-4 py-2 rounded-full hover:bg-opacity-90 transition-colors">Contato</a>
             </nav>
             <button id="mobile-menu-button" class="md:hidden text-2xl text-[var(--primary-gold)]" aria-label="Abrir menu de navegação">
@@ -111,13 +130,15 @@
         </div>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white py-4">
-            <a href="#inicio" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Início</a>
-            <a href="#servicos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Serviços</a>
-            <a href="#documentos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Documentos</a>
-            <a href="#emolumentos" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Emolumentos</a>
-            <a href="#noticias" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Notícias</a>
-            <a href="#sobre" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Sobre Nós</a>
-            <a href="#contato" class="block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Contato</a>
+            <a href="#inicio" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Início</a>
+            <a href="#servicos" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Serviços</a>
+            <a href="#documentos" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Documentos</a>
+            <a href="#emolumentos" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Emolumentos</a>
+            <a href="#noticias" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Notícias</a>
+            <a href="#links" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Links Úteis</a>
+            <a href="#sobre" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Sobre Nós</a>
+            <a href="intranet-login.html" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Intranet</a>
+            <a href="#contato" class="mobile-link block text-center py-2 text-gray-600 hover:text-[var(--primary-gold)]">Contato</a>
         </div>
     </header>
 
@@ -425,7 +446,8 @@
         // **************************************************
         // COLE AQUI O SEU firebaseConfig GERADO NO PASSO 5 DO GUIA
         // **************************************************
-        const firebaseConfig = {
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
             apiKey: "AIzaSyBObpt6dundbucN8tOsJSaSDOFlz3Wuxzw",
             authDomain: "site-rijatai.firebaseapp.com",
             projectId: "site-rijatai",
@@ -433,7 +455,7 @@
             messagingSenderId: "424317487274",
             appId: "1:424317487274:web:f36d9a24a4bffd4a4c28d3",
             measurementId: "G-7MS3M1XH15"
-        };
+            };
         // **************************************************
 
         const app = initializeApp(firebaseConfig);
@@ -473,7 +495,7 @@
                     const querySnapshot = await getDocs(collection(db, "noticias"));
                     const newsData = querySnapshot.docs.map(doc => doc.data());
                     
-                    newsLoading.remove();
+                    if(newsLoading) newsLoading.remove();
                     if (newsData.length === 0) {
                         newsContainer.innerHTML = '<p class="text-center text-gray-500 col-span-full">Nenhuma notícia disponível no momento.</p>';
                         return;
@@ -493,7 +515,7 @@
                         newsContainer.appendChild(newsCard);
                     });
                 } catch (error) {
-                     newsLoading.textContent = `Erro ao carregar notícias. Verifique a configuração do Firebase.`;
+                     if(newsLoading) newsLoading.textContent = `Erro ao carregar notícias. Verifique a configuração do Firebase.`;
                 }
             }
             

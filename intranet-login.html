@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login da Intranet - RI Jataí</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gold: #968246;
+            --light-bg: #f8f9fa;
+            --card-bg: #FFFFFF;
+            --text-dark: #212529;
+            --text-gray: #6c757d;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header id="header" class="bg-white/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-[var(--primary-gold)]" aria-label="Voltar para a página inicial do RI Jataí">
+                RI Jataí
+            </a>
+            <span class="font-semibold text-gray-600">Acesso Restrito</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div class="w-full max-w-md bg-[var(--card-bg)] p-8 rounded-xl shadow-2xl border">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-[var(--primary-gold)]">Acesso à Intranet</h1>
+                <p class="text-[var(--text-gray)] mt-2">Exclusivo para colaboradores.</p>
+            </div>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                    <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
+                    <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
+                </div>
+                <div>
+                    <button type="submit" class="w-full bg-[var(--primary-gold)] text-white font-semibold py-3 px-4 rounded-full hover:bg-opacity-90 transition-colors flex items-center justify-center">
+                        Entrar
+                    </button>
+                </div>
+                <p id="error-message" class="text-center text-sm text-red-600"></p>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--primary-gold)] text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm">&copy; 2024 Cartório de Registro de Imóveis e Anexos de Jataí-GO.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        // **************************************************
+        // COLE AQUI O SEU firebaseConfig
+        // **************************************************
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+            apiKey: "AIzaSyBObpt6dundbucN8tOsJSaSDOFlz3Wuxzw",
+            authDomain: "site-rijatai.firebaseapp.com",
+            projectId: "site-rijatai",
+            storageBucket: "site-rijatai.firebasestorage.app",
+            messagingSenderId: "424317487274",
+            appId: "1:424317487274:web:f36d9a24a4bffd4a4c28d3",
+            measurementId: "G-7MS3M1XH15"
+            };
+        // **************************************************
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMessage.textContent = '';
+
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+
+            if (!email || !password) {
+                errorMessage.textContent = 'Por favor, preencha todos os campos.';
+                return;
+            }
+
+            try {
+                const userDocRef = doc(db, "usuarios", email);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    const userData = userDocSnap.data();
+                    
+                    // Validação da senha e do status
+                    if (userData.senha === password) {
+                        if (userData.status === true) {
+                            // Login bem-sucedido
+                            window.location.href = 'kit-boas-vindas.html';
+                        } else {
+                            errorMessage.textContent = 'Este usuário está inativo.';
+                        }
+                    } else {
+                        errorMessage.textContent = 'E-mail ou senha incorretos.';
+                    }
+                } else {
+                    errorMessage.textContent = 'E-mail ou senha incorretos.';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'Ocorreu um erro ao tentar fazer login. Tente novamente.';
+            }
+        });
+    </script>
+
+</body>
+</html>

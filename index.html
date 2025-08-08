@@ -86,23 +86,6 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.25); }
         }
-        .card-flip {
-            perspective: 1000px;
-        }
-        .card-flip-inner {
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        .card-flip.flipped .card-flip-inner {
-            transform: rotateY(180deg);
-        }
-        .card-front, .card-back {
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-        }
-        .card-back {
-            transform: rotateY(180deg);
-        }
     </style>
 </head>
 <body class="text-[var(--text-dark)]">
@@ -360,40 +343,49 @@
                     <h2 class="text-4xl font-bold text-[var(--primary-gold)]">Fale Conosco</h2>
                     <p class="text-[var(--text-gray)] mt-2">Estamos à sua disposição para esclarecer dúvidas e prestar informações.</p>
                 </div>
-                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-8 rounded-lg shadow-lg border">
-                    <form id="contact-form">
-                        <div class="space-y-4">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700">Seu nome *</label>
-                                <input type="text" id="name" name="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700">Seu e-mail *</label>
-                                <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
-                            </div>
-                            <div>
-                                <label for="subject" class="block text-sm font-medium text-gray-700">Assunto *</label>
-                                <input type="text" id="subject" name="subject" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]">
-                            </div>
-                            <div>
-                                <label for="message" class="block text-sm font-medium text-gray-700">Mensagem *</label>
-                                <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></textarea>
-                            </div>
-                            <!-- Cloudflare Turnstile -->
-                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
-                            <div>
-                                <button type="submit" class="w-full bg-[var(--primary-gold)] text-white font-semibold py-3 px-4 rounded-full hover:bg-opacity-90 transition-colors">Enviar</button>
-                            </div>
-                             <p id="form-status" class="text-center text-sm"></p>
+                 <div class="max-w-4xl mx-auto bg-white p-2 rounded-lg shadow-lg">
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex flex-wrap -mx-4" aria-label="Tabs">
+                            <button data-tab-target="fale-conosco" class="tab-button active whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Fale Conosco</button>
+                            <button data-tab-target="ouvidoria" class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Ouvidoria</button>
+                            <button data-tab-target="compliance" class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-lg text-gray-500 hover:text-[var(--primary-gold)]">Compliance</button>
+                        </nav>
+                    </div>
+                    <div id="contact-tab-content" class="p-4">
+                        <div data-tab-content="fale-conosco" class="tab-pane active">
+                            <p class="text-[var(--text-gray)] mb-6">Utilize este canal for para dúvidas, sugestões ou informações gerais. Sua mensagem será direcionada à nossa equipe de atendimento.</p>
+                            <form class="contact-form space-y-4">
+                                <div><label for="name-fc" class="block text-sm font-medium text-gray-700">Seu nome *</label><input type="text" id="name-fc" name="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div><label for="email-fc" class="block text-sm font-medium text-gray-700">Seu e-mail *</label><input type="email" id="email-fc" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div><label for="subject-fc" class="block text-sm font-medium text-gray-700">Assunto *</label><input type="text" id="subject-fc" name="subject" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div><label for="message-fc" class="block text-sm font-medium text-gray-700">Mensagem *</label><textarea id="message-fc" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></textarea></div>
+                                <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+                                <div><button type="submit" class="w-full bg-[var(--primary-gold)] text-white font-semibold py-3 px-4 rounded-full hover:bg-opacity-90 transition-colors">Enviar</button></div>
+                                <p class="form-status text-center text-sm"></p>
+                            </form>
                         </div>
-                    </form>
-                    <div class="text-left">
-                        <h3 class="text-2xl font-semibold mb-4 text-[var(--text-dark)]">Contatos</h3>
-                        <div class="space-y-4 text-[var(--text-gray)]">
-                            <p><i class="fas fa-clock mr-3 text-[var(--primary-gold)]"></i><strong>Horário:</strong> Seg a Sex, das 8h às 17h</p>
-                            <p><i class="fas fa-envelope mr-3 text-[var(--primary-gold)]"></i><strong>E-mail:</strong> atendimento@rijatai.com.br</p>
-                            <p><i class="fas fa-phone-alt mr-3 text-[var(--primary-gold)]"></i><strong>Telefone:</strong> (64) 3513-0332</p>
-                            <p><i class="fab fa-whatsapp mr-3 text-[var(--primary-gold)]"></i><strong>WhatsApp:</strong> (64) 99958-6494</p>
+                        <div data-tab-content="ouvidoria" class="tab-pane hidden">
+                             <p class="text-[var(--text-gray)] mb-6">A Ouvidoria é o seu canal para fazer reclamações, elogios ou denúncias sobre os nossos serviços. Asseguramos análise imparcial e resposta à sua manifestação.</p>
+                            <form class="contact-form space-y-4">
+                                <div><label for="name-ov" class="block text-sm font-medium text-gray-700">Seu nome (Opcional)</label><input type="text" id="name-ov" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div><label for="email-ov" class="block text-sm font-medium text-gray-700">Seu e-mail (para receber resposta) *</label><input type="email" id="email-ov" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div><label for="subject-ov" class="block text-sm font-medium text-gray-700">Assunto *</label><input type="text" id="subject-ov" name="subject" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div><label for="message-ov" class="block text-sm font-medium text-gray-700">Manifestação *</label><textarea id="message-ov" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></textarea></div>
+                                <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+                                <div><button type="submit" class="w-full bg-[var(--primary-gold)] text-white font-semibold py-3 px-4 rounded-full hover:bg-opacity-90 transition-colors">Enviar para Ouvidoria</button></div>
+                                <p class="form-status text-center text-sm"></p>
+                            </form>
+                        </div>
+                        <div data-tab-content="compliance" class="tab-pane hidden">
+                            <p class="text-[var(--text-gray)] mb-6">Este é um canal seguro e confidencial para relatar suspeitas de violações ao nosso Código de Conduta, políticas internas ou legislação vigente (ex: corrupção, suborno, fraude). O relato pode ser anônimo.</p>
+                           <form class="contact-form space-y-4">
+                                <div><label for="subject-cp" class="block text-sm font-medium text-gray-700">Assunto do Relato *</label><input type="text" id="subject-cp" name="subject" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div><label for="message-cp" class="block text-sm font-medium text-gray-700">Relato Detalhado *</label><textarea id="message-cp" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></textarea></div>
+                                <div><label for="email-cp" class="block text-sm font-medium text-gray-700">Seu e-mail (Opcional, para acompanhamento)</label><input type="email" id="email-cp" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary-gold)] focus:border-[var(--primary-gold)]"></div>
+                                <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+                                <div><button type="submit" class="w-full bg-[var(--primary-gold)] text-white font-semibold py-3 px-4 rounded-full hover:bg-opacity-90 transition-colors">Enviar Relato Confidencial</button></div>
+                                <p class="form-status text-center text-sm"></p>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -442,24 +434,33 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app-check.js";
 
         // **************************************************
         // COLE AQUI O SEU firebaseConfig GERADO NO PASSO 5 DO GUIA
         // **************************************************
-       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-            const firebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyBObpt6dundbucN8tOsJSaSDOFlz3Wuxzw",
             authDomain: "site-rijatai.firebaseapp.com",
             projectId: "site-rijatai",
-            storageBucket: "site-rijatai.firebasestorage.app",
+            storageBucket: "site-rijatai.appspot.com",
             messagingSenderId: "424317487274",
             appId: "1:424317487274:web:f36d9a24a4bffd4a4c28d3",
             measurementId: "G-7MS3M1XH15"
-            };
+        };
         // **************************************************
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        // Configuração do App Check para depuração
+        self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+
+        const appCheck = initializeAppCheck(app, {
+            provider: new ReCaptchaV3Provider('6Ld-pAYqAAAAAK5_a-4b-p_R-p_p_R-p_p_R-p_p_R-p'), // Chave de site reCAPTCHA v3 (pode ser uma chave de teste)
+            isTokenAutoRefreshEnabled: true
+        });
+
 
         document.addEventListener('DOMContentLoaded', function () {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -475,8 +476,9 @@
             const feeTabButtons = document.querySelectorAll('#emolumentos .fee-tab-button');
             const newsContainer = document.getElementById('news-container');
             const newsLoading = document.getElementById('news-loading');
-            const contactForm = document.getElementById('contact-form');
-            const formStatus = document.getElementById('form-status');
+            const contactForms = document.querySelectorAll('.contact-form');
+            const contactTabButtons = document.querySelectorAll('#contato .tab-button');
+            const contactTabPanes = document.querySelectorAll('#contato .tab-pane');
             
             let allFeeRows = [];
 
@@ -486,7 +488,7 @@
                     allFeeRows = querySnapshot.docs.map(doc => doc.data());
                     filterAndDisplayFees();
                 } catch (error) {
-                    feeTableBody.innerHTML = `<tr><td colspan="4" class="text-center p-8 text-red-500"><strong>Erro ao carregar emolumentos.</strong><br>Verifique a configuração do Firebase.</td></tr>`;
+                    feeTableBody.innerHTML = `<tr><td colspan="4" class="text-center p-8 text-red-500"><strong>Erro ao carregar emolumentos.</strong><br>${error.message}</td></tr>`;
                 }
             }
 
@@ -601,19 +603,35 @@
                 });
             });
 
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                formStatus.textContent = 'A enviar...';
-                formStatus.classList.remove('text-red-500', 'text-green-500');
-                // Simulação de envio
-                setTimeout(() => {
-                    formStatus.textContent = 'Mensagem enviada com sucesso!';
-                    formStatus.classList.add('text-green-500');
-                    contactForm.reset();
-                    if (window.turnstile) {
-                        window.turnstile.reset();
-                    }
-                }, 1000);
+            contactTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    contactTabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    contactTabPanes.forEach(pane => {
+                        pane.classList.toggle('hidden', pane.dataset.tabContent !== button.dataset.tabTarget);
+                    });
+                });
+            });
+
+            contactForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const statusEl = form.querySelector('.form-status');
+                    statusEl.textContent = 'A enviar...';
+                    statusEl.classList.remove('text-red-500', 'text-green-500');
+                    // Simulação de envio
+                    setTimeout(() => {
+                        statusEl.textContent = 'Mensagem enviada com sucesso!';
+                        statusEl.classList.add('text-green-500');
+                        form.reset();
+                        if (window.turnstile) {
+                            const widget = form.querySelector('.cf-turnstile');
+                            if(widget) {
+                                turnstile.reset(widget);
+                            }
+                        }
+                    }, 1000);
+                });
             });
 
         });

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz PQTA 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1a202c;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .quiz-container {
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2.5rem;
+        }
+        .progress-bar-container {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #3b82f6;
+            border-radius: 9999px;
+            transition: width 0.3s ease-in-out;
+        }
+        .option {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .option:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .option.correct {
+            background-color: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+            pointer-events: none;
+        }
+        .option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+            pointer-events: none;
+        }
+        .option.selected {
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="container mx-auto p-4">
+        <div id="quiz-app" class="quiz-container">
+            <!-- Conteúdo do quiz será injetado aqui pelo JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "De acordo com o Manual de Condutas (MACEQ) e o PQTA, como você contribui para a Missão e os Valores do Cartório?",
+                options: [
+                    "Apenas lendo-os no Manual quando sou contratado.",
+                    "Discutindo e propondo novos valores em reuniões estratégicas.",
+                    "Tendo a missão, visão e valores definidos, documentados e divulgados para todas as partes interessadas, incluindo os colaboradores.",
+                    "Apenas memorizando-os."
+                ],
+                correctAnswer: "Tendo a missão, visão e valores definidos, documentados e divulgados para todas as partes interessadas, incluindo os colaboradores.",
+                explanation: "Tanto o MACEQ quanto o PQTA destacam que a Missão, Visão e Valores são a base da nossa gestão e devem ser de conhecimento de todos nós para que possam ser aplicados no dia a dia."
+            },
+            {
+                question: "Se você identificar uma oportunidade de melhoria ou tiver uma sugestão, qual é o canal oficial para registrá-la?",
+                options: [
+                    "Conversar diretamente com o Oficial.",
+                    "Deixar um bilhete anônimo na mesa do líder.",
+                    "Registrar no sistema Monday (formulário eletrônico) ou na caixa de sugestões.",
+                    "Enviar um e-mail para todos os colaboradores."
+                ],
+                correctAnswer: "Registrar no sistema Monday (formulário eletrônico) ou na caixa de sugestões.",
+                explanation: "O MACEQ (item 5.3.5) indica que oportunidades e melhorias devem ser registradas no sistema Monday (formulário eletrônico) ou na caixa de sugestões para que o Comitê da Qualidade possa analisá-las."
+            },
+            {
+                question: "Ao identificar uma não conformidade, como um erro em um processo, qual deve ser a sua atitude?",
+                options: [
+                    "Corrigir o problema e não registrar para evitar penalidades.",
+                    "Ignorar, pois não é sua responsabilidade.",
+                    "Registrar no sistema Monday (formulário eletrônico), descrever o problema e o responsável para análise da causa raiz.",
+                    "Reportar a falha diretamente para o cliente."
+                ],
+                correctAnswer: "Registrar no sistema Monday (formulário eletrônico), descrever o problema e o responsável para análise da causa raiz.",
+                explanation: "O PQTA (B.21) e o MACEQ (item 5.3.4) instruem a registrar a não conformidade no sistema Monday (formulário eletrônico). Este é o primeiro passo para garantir que a causa seja investigada e que o erro não se repita."
+            },
+            {
+                question: "Qual a sua responsabilidade principal após participar de um treinamento interno?",
+                options: [
+                    "Apenas aplicar o conhecimento no seu trabalho.",
+                    "Preencher o formulário de avaliação de eficácia do treinamento.",
+                    "Apenas assinar a lista de presença.",
+                    "Fazer um resumo para todos os seus colegas."
+                ],
+                correctAnswer: "Preencher o formulário de avaliação de eficácia do treinamento.",
+                explanation: "De acordo com o MACEQ (item 5.3.6), o formulário de eficácia serve para avaliar o treinamento e o aprendizado, ajudando a garantir que as capacitações sejam de alta qualidade."
+            },
+            {
+                question: "O que o 'Senso de Organização' (Seiton) da metodologia 5S exige do colaborador?",
+                options: [
+                    "Descartar todos os itens desnecessários da mesa.",
+                    "Fazer a limpeza diária do local de trabalho.",
+                    "Guardar os documentos e materiais em gavetas identificadas ao final do expediente.",
+                    "Usar o uniforme em boas condições."
+                ],
+                correctAnswer: "Guardar os documentos e materiais em gavetas identificadas ao final do expediente.",
+                explanation: "O MACEQ (item 9.2) define o Senso de Organização como a prática de delimitar um lugar para cada coisa, garantindo que o local de trabalho esteja sempre organizado."
+            },
+            {
+                question: "Qual a atitude correta para otimizar o uso de papel, de acordo com a Gestão Socioambiental?",
+                options: [
+                    "Imprimir sempre em uma única face do papel para garantir a qualidade.",
+                    "Imprimir apenas o que for estritamente necessário e usar os dois lados da folha.",
+                    "Descartar as folhas usadas no lixo comum.",
+                    "Usar papel novo para todas as impressões."
+                ],
+                correctAnswer: "Imprimir apenas o que for estritamente necessário e usar os dois lados da folha.",
+                explanation: "O MACEQ (item 5.6.3) enfatiza a importância de otimizar o uso do papel. A melhor prática é imprimir somente o necessário e usar ambos os lados da folha, ou aproveitar o verso para rascunhos."
+            },
+            {
+                question: "O que o Cartório oferece para incentivar a inovação e sugestões que gerem economia de custos?",
+                options: [
+                    "Um dia de folga para sugestões que diminuam custos.",
+                    "Aumento salarial imediato.",
+                    "Um vale-presente anual.",
+                    "Apenas uma menção honrosa no mural."
+                ],
+                correctAnswer: "Um dia de folga para sugestões que diminuam custos.",
+                explanation: "O MACEQ (item 5.4.10) menciona que ideias que resultem em diminuição significativa de custos serão recompensadas com 1 dia de folga, além de serem consideradas na sua avaliação de desempenho."
+            },
+            {
+                question: "O canal de denúncias para o Comitê de Compliance garante o anonimato?",
+                options: [
+                    "Não, é obrigatório se identificar.",
+                    "Sim, a identificação é opcional.",
+                    "Sim, mas apenas para denúncias externas.",
+                    "Apenas para casos de fraude."
+                ],
+                correctAnswer: "Sim, a identificação é opcional.",
+                explanation: "De acordo com o MACEQ (item 5.9.5), o canal de denúncias garante o sigilo e confidencialidade. A identificação do denunciante é optativa, mas é preciso informar um e-mail para receber um retorno."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const quizApp = document.getElementById('quiz-app');
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            answered = false;
+            renderWelcomeScreen();
+        }
+
+        function renderWelcomeScreen() {
+            quizApp.innerHTML = `
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold mb-4">Bem-vindo(a) ao Quiz do PQTA!</h2>
+                    <p class="text-gray-700 mb-6">Teste seus conhecimentos sobre o Manual de Condutas e o Prêmio de Qualidade Total. A sua participação é fundamental para o sucesso do Cartório!</p>
+                    <button id="start-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Iniciar Quiz</button>
+                </div>
+            `;
+            document.getElementById('start-button').addEventListener('click', renderQuestion);
+        }
+
+        function renderQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                renderResults();
+                return;
+            }
+
+            const currentQuestion = questions[currentQuestionIndex];
+            answered = false;
+
+            const optionsHtml = currentQuestion.options.map((option, index) => `
+                <div class="option p-4 my-2 border-2 border-gray-200 rounded-lg shadow-sm text-gray-800" data-index="${index}">
+                    ${option}
+                </div>
+            `).join('');
+
+            const progress = (currentQuestionIndex / questions.length) * 100;
+
+            quizApp.innerHTML = `
+                <div class="mb-6">
+                    <div class="flex justify-between items-center text-sm font-medium text-gray-500 mb-2">
+                        <span>Pergunta ${currentQuestionIndex + 1} de ${questions.length}</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: ${progress}%"></div>
+                    </div>
+                </div>
+                <h3 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">${currentQuestion.question}</h3>
+                <div id="options-container" class="space-y-4">
+                    ${optionsHtml}
+                </div>
+                <div id="feedback-container" class="mt-6 hidden">
+                    <div id="feedback-message" class="p-4 rounded-lg"></div>
+                    <button id="next-button" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Próxima</button>
+                </div>
+            `;
+
+            document.getElementById('options-container').addEventListener('click', handleOptionClick);
+        }
+
+        function handleOptionClick(event) {
+            if (answered) return;
+
+            const selectedOption = event.target.closest('.option');
+            if (!selectedOption) return;
+
+            answered = true;
+            const selectedText = selectedOption.textContent.trim();
+            const currentQuestion = questions[currentQuestionIndex];
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackMessage = document.getElementById('feedback-message');
+            const options = document.querySelectorAll('.option');
+
+            options.forEach(option => {
+                option.classList.remove('selected');
+                option.style.pointerEvents = 'none';
+                if (option.textContent.trim() === currentQuestion.correctAnswer) {
+                    option.classList.add('correct');
+                }
+            });
+
+            if (selectedText === currentQuestion.correctAnswer) {
+                score++;
+                feedbackMessage.innerHTML = `<span class="font-bold">Correto!</span> ${currentQuestion.explanation}`;
+                feedbackMessage.className = 'p-4 rounded-lg bg-green-100 text-green-700';
+            } else {
+                selectedOption.classList.add('incorrect');
+                feedbackMessage.innerHTML = `<span class="font-bold">Incorreto.</span> A resposta correta é: ${currentQuestion.correctAnswer}. <br><br> ${currentQuestion.explanation}`;
+                feedbackMessage.className = 'p-4 rounded-lg bg-red-100 text-red-700';
+            }
+
+            feedbackContainer.classList.remove('hidden');
+            document.getElementById('next-button').addEventListener('click', () => {
+                currentQuestionIndex++;
+                renderQuestion();
+            });
+        }
+
+        function renderResults() {
+            const resultText = score === questions.length
+                ? "Parabéns, você é um(a) verdadeiro(a) craque da qualidade! Continue assim para o sucesso do Cartório!"
+                : score >= questions.length / 2
+                ? "Ótimo trabalho! Você tem um bom conhecimento sobre o nosso Manual. Continue se aprimorando!"
+                : "Você está no caminho certo! Continue estudando o Manual e se envolva nas atividades do Cartório.";
+
+            quizApp.innerHTML = `
+                <div class="text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4">Quiz Concluído!</h2>
+                    <p class="text-lg text-gray-700 mb-2">Sua pontuação final:</p>
+                    <p class="text-6xl font-extrabold text-blue-600">${score}/${questions.length}</p>
+                    <p class="text-md text-gray-600 mt-4">${resultText}</p>
+                    <button id="restart-button" class="mt-8 bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">Refazer o Quiz</button>
+                </div>
+            `;
+            document.getElementById('restart-button').addEventListener('click', startQuiz);
+        }
+
+        document.addEventListener('DOMContentLoaded', startQuiz);
+    </script>
+</body>
+</html>
